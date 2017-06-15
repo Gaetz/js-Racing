@@ -12,9 +12,11 @@ const CAR_START_Y = 400;
 const CAR_START_SPEED = 0;
 const CAR_RADIUS = 10;
 const CAR_GRAPHICS = 'car.png';
-const CAR_ACCELERATION = 0.2;
+const CAR_ACCELERATION = 0.5;
+const CAR_BRAKE = 0.1;
 const CAR_ROTATION = 0.03 * Math.PI;
-
+const GROUNDSPEED_DECAY_MULT = 0.94;
+const CAR_MIN_TURN_SPEED = 0.5; // Minimum speed to turn
 
 // Track elements
 const TRACK_WIDTH = 40;

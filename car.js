@@ -24,17 +24,19 @@ class Car {
             this.speed = this.speed + CAR_ACCELERATION;
         }
         if (input.isPressedDown) {
-            this.speed = this.speed - CAR_ACCELERATION;
+            this.speed = this.speed - CAR_BRAKE;
         }
-        if (input.isPressedLeft) {
+        if (input.isPressedLeft && Math.abs(this.speed) > CAR_MIN_TURN_SPEED) {
             this.angle = this.angle - CAR_ROTATION;
         }
-        if (input.isPressedRight) {
+        if (input.isPressedRight && Math.abs(this.speed) > CAR_MIN_TURN_SPEED) {
             this.angle = this.angle + CAR_ROTATION;
         }
         // Move
         this.x = this.x + Math.cos(this.angle) * this.speed;
         this.y = this.y + Math.sin(this.angle) * this.speed;
+        // Automatic deceleration
+        this.speed = this.speed * GROUNDSPEED_DECAY_MULT;
         // Wall bounce
         if (this.y <= 0 || this.y >= canvas.height)
             this.speed *= -1;
