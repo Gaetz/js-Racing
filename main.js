@@ -1,4 +1,4 @@
-let canvas, canvasContext;
+let canvas, canvasContext, input;
 let car, tracks, background, trackGrid;
 
 /**
@@ -23,17 +23,17 @@ window.onload = function () {
  */
 function keyPressed(e) {
     document.getElementById('debugText').innerHTML = "KeyCode Pushed: " + e.keyCode;
-    if(e.keyCode == UP_CODE || e.keyCode == Z_CODE) {
-        car.speed = car.speed + CAR_ACCELERATION;
+    if (e.keyCode == UP_CODE || e.keyCode == Z_CODE) {
+        input.isPressedUp = true;
     }
-    if(e.keyCode == LEFT_CODE || e.keyCode == Q_CODE) {
-        car.angle = car.angle - CAR_ROTATION;
+    if (e.keyCode == LEFT_CODE || e.keyCode == Q_CODE) {
+        input.isPressedLeft = true;
     }
-    if(e.keyCode == RIGHT_CODE || e.keyCode == D_CODE) {
-        car.angle = car.angle + CAR_ROTATION;
+    if (e.keyCode == RIGHT_CODE || e.keyCode == D_CODE) {
+        input.isPressedRight = true;
     }
-    if(e.keyCode == DOWN_CODE || e.keyCode == S_CODE) {
-        car.speed = car.speed - CAR_ACCELERATION;
+    if (e.keyCode == DOWN_CODE || e.keyCode == S_CODE) {
+        input.isPressedDown = true;
     }
 }
 
@@ -42,6 +42,18 @@ function keyPressed(e) {
  */
 function keyReleased(e) {
     document.getElementById('debugText').innerHTML = "KeyCode Released: " + e.keyCode;
+    if (e.keyCode == UP_CODE || e.keyCode == Z_CODE) {
+        input.isPressedUp = false;
+    }
+    if (e.keyCode == LEFT_CODE || e.keyCode == Q_CODE) {
+        input.isPressedLeft = false;
+    }
+    if (e.keyCode == RIGHT_CODE || e.keyCode == D_CODE) {
+        input.isPressedRight = false;
+    }
+    if (e.keyCode == DOWN_CODE || e.keyCode == S_CODE) {
+        input.isPressedDown = false;
+    }
 }
 
 /**
@@ -57,28 +69,30 @@ function load() {
     // Track
     tracks = [];
     loadTracks();
+    // Input
+    input = new Input();
 }
 
 /**
  * Load all tracks
  */
 function loadTracks() {
-    trackGrid = 
-       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-        1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1,
-        1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1,
-        1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1,
-        1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
-        1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
-        1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
-        1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
-        1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1,
-        1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+    trackGrid =
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+            1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+            1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1,
+            1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1,
+            1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1,
+            1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+            1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+            1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
+            1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
+            1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1,
+            1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+            1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1,
+            1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 
     for (let i = 0; i < TRACK_ROWS; i++) {
         for (let j = 0; j < TRACK_COLS; j++) {
@@ -92,7 +106,7 @@ function loadTracks() {
  * Update loop
  */
 function update() {
-    car.update(canvas);
+    car.update(canvas, input);
     // Car bouncing on track
     updateCarCollision();
 }

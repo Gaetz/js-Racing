@@ -18,7 +18,20 @@ class Car {
         };
     }
 
-    update(canvas) {
+    update(canvas, input) {
+        // Input controls
+        if (input.isPressedUp) {
+            this.speed = this.speed + CAR_ACCELERATION;
+        }
+        if (input.isPressedDown) {
+            this.speed = this.speed - CAR_ACCELERATION;
+        }
+        if (input.isPressedLeft) {
+            this.angle = this.angle - CAR_ROTATION;
+        }
+        if (input.isPressedRight) {
+            this.angle = this.angle + CAR_ROTATION;
+        }
         // Move
         this.x = this.x + Math.cos(this.angle) * this.speed;
         this.y = this.y + Math.sin(this.angle) * this.speed;
