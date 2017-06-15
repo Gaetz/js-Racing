@@ -22,37 +22,28 @@ window.onload = function () {
  * @param {*} e 
  */
 function keyPressed(e) {
-    document.getElementById('debugText').innerHTML = "KeyCode Pushed: " + e.keyCode;
-    if (e.keyCode == UP_CODE || e.keyCode == Z_CODE) {
-        input.isPressedUp = true;
-    }
-    if (e.keyCode == LEFT_CODE || e.keyCode == Q_CODE) {
-        input.isPressedLeft = true;
-    }
-    if (e.keyCode == RIGHT_CODE || e.keyCode == D_CODE) {
-        input.isPressedRight = true;
-    }
-    if (e.keyCode == DOWN_CODE || e.keyCode == S_CODE) {
-        input.isPressedDown = true;
-    }
+    setKeyHoldState(e.keyCode, true);
 }
 
 /**
  * Handle key releasing
  */
 function keyReleased(e) {
-    document.getElementById('debugText').innerHTML = "KeyCode Released: " + e.keyCode;
-    if (e.keyCode == UP_CODE || e.keyCode == Z_CODE) {
-        input.isPressedUp = false;
+    setKeyHoldState(e.keyCode, false);
+}
+
+function setKeyHoldState(keyCode, setTo) {
+    if (keyCode == UP_CODE || keyCode == Z_CODE) {
+        input.isPressedUp = setTo;
     }
-    if (e.keyCode == LEFT_CODE || e.keyCode == Q_CODE) {
-        input.isPressedLeft = false;
+    if (keyCode == LEFT_CODE || keyCode == Q_CODE) {
+        input.isPressedLeft = setTo;
     }
-    if (e.keyCode == RIGHT_CODE || e.keyCode == D_CODE) {
-        input.isPressedRight = false;
+    if (keyCode == RIGHT_CODE || keyCode == D_CODE) {
+        input.isPressedRight = setTo;
     }
-    if (e.keyCode == DOWN_CODE || e.keyCode == S_CODE) {
-        input.isPressedDown = false;
+    if (keyCode == DOWN_CODE || keyCode == S_CODE) {
+        input.isPressedDown = setTo;
     }
 }
 

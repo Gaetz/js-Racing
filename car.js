@@ -19,6 +19,7 @@ class Car {
     }
 
     update(canvas, input) {
+        document.getElementById('debugText').innerHTML = "Speed: " + this.speed;
         // Input controls
         if (input.isPressedUp) {
             this.speed = this.speed + CAR_ACCELERATION;
