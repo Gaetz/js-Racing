@@ -9,8 +9,7 @@ const ANGLE_MULTIPLICATOR = 5;
 // Car
 const CAR_START_X = 80;
 const CAR_START_Y = 400;
-const CAR_START_SPEED_X = 0;
-const CAR_START_SPEED_Y = 0;
+const CAR_START_SPEED = 0;
 const CAR_RADIUS = 10;
 const CAR_GRAPHICS = 'car.png';
 

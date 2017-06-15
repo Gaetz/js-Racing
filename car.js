@@ -3,12 +3,11 @@
  */
 class Car {
 
-    constructor(x, y = Math.round(Math.random() * 450 + 75), radius = CAR_RADIUS, speedX = CAR_START_SPEED_X, speedY = CAR_START_SPEED_Y, angle = 0) {
+    constructor(x, y = Math.round(Math.random() * 450 + 75), radius = CAR_RADIUS, speed = CAR_START_SPEED, angle = 0) {
         this.x = x;
         this.y = y;
         this.radius = radius;
-        this.speedX = speedX;
-        this.speedY = speedY;
+        this.speed = speed;
         this.angle = angle;
         // Load car image
         this.isCarPicLoaded = false;
@@ -20,14 +19,16 @@ class Car {
     }
 
     update(canvas) {
+        this.speed += 0.2;
+        this.angle += 0.2;
         // Move
-        this.x += this.speedX;
-        this.y += this.speedY;
+        this.x = this.x + Math.cos(this.angle) * this.speed;
+        this.y = this.y + Math.sin(this.angle) * this.speed;
         // Wall bounce
         if (this.y <= 0 || this.y >= canvas.height)
-            this.speedY *= -1;
+            this.speed *= -1;
         if (this.x >= canvas.width || this.x <= 0)
-            this.speedX *= -1;
+            this.speed *= -1;
     }
 
     draw(canvasContext) {
@@ -50,8 +51,8 @@ class Car {
      * @param {*} paddle - Paddle on which the ball bounces
      */
     bounce(paddle, canvas) {
-        this.speedX = paddle.getBounceHorizontalSpeed(this.x);
-        this.speedY *= -1;
+        this.speed = paddle.getBounceHorizontalSpeed(this.x);
+        this.speed *= -1;
         // Place ball in case it got out of screen because of speed
         if (this.y > canvas.height)
             this.y = paddle.y;
@@ -61,14 +62,14 @@ class Car {
      * Called when a ball bounces on a brick
      */
     trackBounce(row, col) {
-        let previousRow = Math.floor((this.y - this.speedY) / TRACK_HEIGHT);
-        let previousCol = Math.floor((this.x - this.speedX) / TRACK_WIDTH);
+        let previousRow = Math.floor((this.y - this.speed) / TRACK_HEIGHT);
+        let previousCol = Math.floor((this.x - this.speed) / TRACK_WIDTH);
         // Lateral collision
         if (previousCol != col)
-            this.speedX *= -1;
+            this.speed *= -1;
         // Horizontal collision
         if (previousRow != row)
-            this.speedY *= -1;
+            this.speed *= -1;
 
     }
 
@@ -78,7 +79,6 @@ class Car {
     reset() {
         this.x = CAR_START_X;
         this.y = CAR_START_Y;
-        this.speedX = CAR_START_SPEED_X;
-        this.speedY = CAR_START_SPEED_Y;
+        this.speed = CAR_START_SPEED;
     }
 }
