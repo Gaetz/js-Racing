@@ -8,9 +8,8 @@ window.onload = function () {
     // Load game elements
     load();
     // Manage inputs
-    canvas.addEventListener('mousemove', (evt) => {
-        let mousePos = calculateMousePos(evt);
-    });
+    document.addEventListener('keydown', keyPressed);
+    document.addEventListener('keyup', keyReleased);
     // Loop
     setInterval(() => {
         update();
@@ -19,18 +18,18 @@ window.onload = function () {
 }
 
 /**
- * Get mouse position on screen
- * @param {event} evt - Passing mouse move
+ * Handle key pressure
+ * @param {*} e 
  */
-function calculateMousePos(evt) {
-    let rect = canvas.getBoundingClientRect();
-    let root = document.documentElement;
-    let mouseX = evt.clientX - rect.left - root.scrollLeft;
-    let mouseY = evt.clientY - rect.top - root.scrollTop;
-    return {
-        x: mouseX,
-        y: mouseY
-    };
+function keyPressed(e) {
+    document.getElementById('debugText').innerHTML = "KeyCode Pushed: " + e.keyCode;
+}
+
+/**
+ * Handle key releasing
+ */
+function keyReleased(e) {
+    document.getElementById('debugText').innerHTML = "KeyCode Released: " + e.keyCode;
 }
 
 /**

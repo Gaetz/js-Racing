@@ -12,8 +12,8 @@ class Car {
         this.angle = angle;
         // Load car image
         this.isCarPicLoaded = false;
-        this.carPic = document.createElement("img");
-        this.carPic.src = "car.png";
+        this.carPic = document.createElement('img');
+        this.carPic.src = 'car.png';
         this.carPic.onload = () => {
             this.isCarPicLoaded = true;
         };
