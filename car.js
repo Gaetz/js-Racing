@@ -3,12 +3,13 @@
  */
 class Car {
 
-    constructor(x, y = Math.round(Math.random() * 450 + 75), radius = CAR_RADIUS, speedX = CAR_START_SPEED_X, speedY = CAR_START_SPEED_Y) {
+    constructor(x, y = Math.round(Math.random() * 450 + 75), radius = CAR_RADIUS, speedX = CAR_START_SPEED_X, speedY = CAR_START_SPEED_Y, angle = 0) {
         this.x = x;
         this.y = y;
         this.radius = radius;
         this.speedX = speedX;
         this.speedY = speedY;
+        this.angle = angle;
         // Load car image
         this.isCarPicLoaded = false;
         this.carPic = document.createElement("img");
@@ -22,6 +23,8 @@ class Car {
         // Move
         this.x += this.speedX;
         this.y += this.speedY;
+        // Rotation
+        this.angle = this.angle + 0.2; 
         // Wall bounce
         if (this.y <= 0 || this.y >= canvas.height)
             this.speedY *= -1;
@@ -30,8 +33,13 @@ class Car {
     }
 
     draw(canvasContext) {
-        if(this.isCarPicLoaded)
-            canvasContext.drawImage(this.carPic, this.x - this.carPic.width / 2, this.y - this.carPic.height / 2);
+        if(this.isCarPicLoaded) {
+            canvasContext.save();
+            canvasContext.translate(this.x, this.y);
+            canvasContext.rotate(this.angle);
+            canvasContext.drawImage(this.carPic, - this.carPic.width / 2, - this.carPic.height / 2);
+            canvasContext.restore();
+        }
     }
 
 
