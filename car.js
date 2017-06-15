@@ -46,8 +46,8 @@ class Car {
      * Called when a ball bounces on a brick
      */
     trackBounce(row, col) {
-        let previousRow = Math.floor((this.y - this.speedY) / BRICK_HEIGHT);
-        let previousCol = Math.floor((this.x - this.speedX) / BRICK_WIDTH);
+        let previousRow = Math.floor((this.y - this.speedY) / TRACK_HEIGHT);
+        let previousCol = Math.floor((this.x - this.speedX) / TRACK_WIDTH);
         // Lateral collision
         if (previousCol != col)
             this.speedX *= -1;

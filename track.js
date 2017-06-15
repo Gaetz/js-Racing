@@ -3,12 +3,14 @@
  */
 class Track {
 
-    constructor(x, y, width = TRACK_WIDTH, height = TRACK_HEIGHT) {
+
+
+    constructor(x, y, isAlive, width = TRACK_WIDTH, height = TRACK_HEIGHT) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.isAlive = true;
+        this.isAlive = isAlive;
     }
 
     update() {

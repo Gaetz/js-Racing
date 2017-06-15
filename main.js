@@ -1,5 +1,5 @@
 let canvas, canvasContext;
-let car, tracks, background;
+let car, tracks, background, trackGrid;
 
 /**
  * Game start
@@ -50,9 +50,26 @@ function load() {
  * Load all tracks
  */
 function loadTracks() {
+    trackGrid = 
+       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+        1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1,
+        1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1,
+        1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1,
+        1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+        1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+        1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
+        1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
+        1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1,
+        1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+
     for (let i = 0; i < TRACK_ROWS; i++) {
         for (let j = 0; j < TRACK_COLS; j++) {
-            let newTrack = new Track(j * TRACK_WIDTH, i * TRACK_HEIGHT);
+            let newTrack = new Track(j * TRACK_WIDTH, i * TRACK_HEIGHT, trackGrid[i * TRACK_COLS + j] == 1);
             tracks.push(newTrack);
         }
     }
@@ -79,7 +96,7 @@ function updateCarCollision() {
     // Collision
     let collidedTrack = getTrackFromColAndRow(trackRow, trackCol);
     if (collidedTrack.isAlive) {
-        collidedTrack.isAlive = false;
+        //collidedTrack.isAlive = false;
         car.trackBounce(trackRow, trackCol);
     }
 }
