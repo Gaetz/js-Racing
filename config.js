@@ -12,6 +12,9 @@ const CAR_START_Y = 400;
 const CAR_START_SPEED = 0;
 const CAR_RADIUS = 10;
 const CAR_GRAPHICS = 'car.png';
+const CAR_ACCELERATION = 1.5;
+const CAR_ROTATION = Math.PI / 4;
+
 
 // Track elements
 const TRACK_WIDTH = 40;
@@ -26,3 +29,13 @@ const BACKGROUND_STYLE = 'black';
 
 // Text
 const TEXT_STYLE = 'white';
+
+// Key codes
+const Z_CODE = 90;
+const S_CODE = 83;
+const Q_CODE = 81;
+const D_CODE = 68;
+const UP_CODE = 38;
+const DOWN_CODE = 40;
+const LEFT_CODE = 37;
+const RIGHT_CODE = 39;

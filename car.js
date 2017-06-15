@@ -3,7 +3,7 @@
  */
 class Car {
 
-    constructor(x, y = Math.round(Math.random() * 450 + 75), radius = CAR_RADIUS, speed = CAR_START_SPEED, angle = 0) {
+    constructor(x, y = Math.round(Math.random() * 450 + 75), radius = CAR_RADIUS, speed = CAR_START_SPEED, angle = - Math.PI / 2) {
         this.x = x;
         this.y = y;
         this.radius = radius;
@@ -19,8 +19,6 @@ class Car {
     }
 
     update(canvas) {
-        this.speed += 0.2;
-        this.angle += 0.2;
         // Move
         this.x = this.x + Math.cos(this.angle) * this.speed;
         this.y = this.y + Math.sin(this.angle) * this.speed;

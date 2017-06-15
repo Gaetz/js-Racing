@@ -23,6 +23,18 @@ window.onload = function () {
  */
 function keyPressed(e) {
     document.getElementById('debugText').innerHTML = "KeyCode Pushed: " + e.keyCode;
+    if(e.keyCode == UP_CODE || e.keyCode == Z_CODE) {
+        car.speed = car.speed + CAR_ACCELERATION;
+    }
+    if(e.keyCode == LEFT_CODE || e.keyCode == Q_CODE) {
+        car.angle = car.angle - CAR_ROTATION;
+    }
+    if(e.keyCode == RIGHT_CODE || e.keyCode == D_CODE) {
+        car.angle = car.angle + CAR_ROTATION;
+    }
+    if(e.keyCode == DOWN_CODE || e.keyCode == S_CODE) {
+        car.speed = car.speed - CAR_ACCELERATION;
+    }
 }
 
 /**
