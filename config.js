@@ -17,6 +17,7 @@ const CAR_BRAKE = 0.1;
 const CAR_ROTATION = 0.03 * Math.PI;
 const GROUNDSPEED_DECAY_MULT = 0.94;
 const CAR_MIN_TURN_SPEED = 0.5; // Minimum speed to turn
+const CAR_MIN_SPEED = 0.1; // Minimum speed the car can go
 
 // Track elements
 const TRACK_WIDTH = 40;

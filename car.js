@@ -37,7 +37,10 @@ class Car {
         this.x = this.x + Math.cos(this.angle) * this.speed;
         this.y = this.y + Math.sin(this.angle) * this.speed;
         // Automatic deceleration
-        this.speed = this.speed * GROUNDSPEED_DECAY_MULT;
+        if(this.speed > CAR_MIN_SPEED)
+            this.speed = this.speed * GROUNDSPEED_DECAY_MULT;
+        else
+            this.speed = 0;
         // Wall bounce
         if (this.y <= 0 || this.y >= canvas.height)
             this.speed *= -1;
