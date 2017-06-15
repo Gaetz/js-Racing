@@ -24,7 +24,7 @@ class Car {
         this.x += this.speedX;
         this.y += this.speedY;
         // Rotation
-        this.angle = this.angle + 0.2; 
+        this.angle = this.angle + 0.2;
         // Wall bounce
         if (this.y <= 0 || this.y >= canvas.height)
             this.speedY *= -1;
@@ -33,13 +33,17 @@ class Car {
     }
 
     draw(canvasContext) {
-        if(this.isCarPicLoaded) {
-            canvasContext.save();
-            canvasContext.translate(this.x, this.y);
-            canvasContext.rotate(this.angle);
-            canvasContext.drawImage(this.carPic, - this.carPic.width / 2, - this.carPic.height / 2);
-            canvasContext.restore();
+        if (this.isCarPicLoaded) {
+            this.drawBitmap(this.carPic, this.x, this.y, this.angle);
         }
+    }
+
+    drawBitmap(graphics, x, y, angle) {
+        canvasContext.save();
+        canvasContext.translate(x, y);
+        canvasContext.rotate(angle);
+        canvasContext.drawImage(graphics, - graphics.width / 2, - graphics.height / 2);
+        canvasContext.restore();
     }
 
 
