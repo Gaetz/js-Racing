@@ -43,9 +43,6 @@ function load() {
     background = new Background(canvas.width, canvas.height);
     // Data
     car = new Car(CAR_START_X, CAR_START_Y);
-            car.onload = function() {
-            car.isCarPicLoaded = true;
-        }
     // Track
     tracks = [];
     loadTracks();
