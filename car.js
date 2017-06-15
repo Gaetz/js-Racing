@@ -9,6 +9,13 @@ class Car {
         this.radius = radius;
         this.speedX = speedX;
         this.speedY = speedY;
+        // Load car image
+        this.isCarPicLoaded = false;
+        this.carPic = document.createElement("img");
+        this.carPic.src = "car.png";
+        this.carPic.onload = () => {
+            this.isCarPicLoaded = true;
+        };
     }
 
     update(canvas) {
@@ -16,17 +23,15 @@ class Car {
         this.x += this.speedX;
         this.y += this.speedY;
         // Wall bounce
-        if (this.y <= 0 || this.y >= canvas.height )
+        if (this.y <= 0 || this.y >= canvas.height)
             this.speedY *= -1;
         if (this.x >= canvas.width || this.x <= 0)
             this.speedX *= -1;
     }
 
     draw(canvasContext) {
-        canvasContext.fillStyle = CAR_STYLE;
-        canvasContext.beginPath();
-        canvasContext.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-        canvasContext.fill();
+        if(this.isCarPicLoaded)
+            canvasContext.drawImage(this.carPic, this.x - this.carPic.width / 2, this.y - this.carPic.height / 2);
     }
 
 
