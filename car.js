@@ -13,7 +13,7 @@ class Car {
         // Load car image
         this.isCarPicLoaded = false;
         this.carPic = document.createElement('img');
-        this.carPic.src = 'car.png';
+        this.carPic.src = CAR_GRAPHICS;
         this.carPic.onload = () => {
             this.isCarPicLoaded = true;
         };
@@ -23,8 +23,6 @@ class Car {
         // Move
         this.x += this.speedX;
         this.y += this.speedY;
-        // Rotation
-        this.angle = this.angle + 0.2;
         // Wall bounce
         if (this.y <= 0 || this.y >= canvas.height)
             this.speedY *= -1;
