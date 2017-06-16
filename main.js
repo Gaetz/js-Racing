@@ -95,6 +95,10 @@ function update() {
     car.update(canvas, input);
     // Car bouncing on track
     updateCarCollision();
+    // End game reset
+    if(isGoalReach()) {
+        resetGame();
+    }
 }
 
 /**
@@ -121,6 +125,19 @@ function updateCarCollision() {
  */
 function getTrackFromColAndRow(trackRow, trackCol) {
     return tracks[trackRow * TRACK_COLS + trackCol];
+}
+
+
+/**
+ * Returns true when car reach track end
+ */
+function isGoalReach() {
+    // Get car's position
+    let nextTrackRow = Math.floor(car.y / TRACK_HEIGHT);
+    let nextTrackCol = Math.floor(car.x / TRACK_WIDTH);
+    // Check if goal is reach
+    let currentTrack = getTrackFromColAndRow(nextTrackRow, nextTrackCol);
+    return currentTrack.code == TRACK_GOAL_CODE;
 }
 
 /**
