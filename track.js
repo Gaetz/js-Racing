@@ -3,12 +3,12 @@
  */
 class Track {
 
-    constructor(x, y, isAlive, width = TRACK_WIDTH, height = TRACK_HEIGHT) {
+    constructor(x, y, code, width = TRACK_WIDTH, height = TRACK_HEIGHT) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.isAlive = isAlive;
+        this.code = code;
     }
 
     update() {
@@ -16,7 +16,7 @@ class Track {
     }
 
     draw(canvasContext) {
-        if (this.isAlive) {
+        if (this.code == TRACK_WALL_CODE) {
             canvasContext.fillStyle = TRACK_STYLE;
             canvasContext.beginPath();
             canvasContext.rect(this.x, this.y, this.width - TRACK_GAP, this.height - TRACK_GAP);

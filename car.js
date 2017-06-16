@@ -3,7 +3,7 @@
  */
 class Car {
 
-    constructor(x, y, radius = CAR_RADIUS, speed = CAR_START_SPEED, angle = - Math.PI / 2) {
+    constructor(x, y, radius = CAR_RADIUS, speed = CAR_START_SPEED, angle = CAR_START_ANGLE) {
         this.x = x;
         this.y = y;
         this.radius = radius;
@@ -16,6 +16,21 @@ class Car {
         this.carPic.onload = () => {
             this.isCarPicLoaded = true;
         };
+        // Car out of control variable
+    }
+
+    /**
+     * Return car's next horizontal position
+     */
+    getNextX() {
+        return this.x + Math.cos(this.angle) * this.speed;
+    }
+
+    /**
+     * Return car's next vertival position
+     */
+    getNextY() {
+        return this.y + Math.sin(this.angle) * this.speed;
     }
 
     update(canvas, input) {
@@ -37,7 +52,7 @@ class Car {
         this.x = this.x + Math.cos(this.angle) * this.speed;
         this.y = this.y + Math.sin(this.angle) * this.speed;
         // Automatic deceleration
-        if(this.speed > CAR_MIN_SPEED)
+        if (this.speed > CAR_MIN_SPEED)
             this.speed = this.speed * GROUNDSPEED_DECAY_MULT;
         else
             this.speed = 0;
@@ -62,32 +77,11 @@ class Car {
         canvasContext.restore();
     }
 
-
     /**
-     * Called when a ball bounces on the paddle
-     * @param {*} paddle - Paddle on which the ball bounces
+     * Called when the bounces on a wall
      */
-    bounce(paddle, canvas) {
-        this.speed = paddle.getBounceHorizontalSpeed(this.x);
-        this.speed *= -1;
-        // Place ball in case it got out of screen because of speed
-        if (this.y > canvas.height)
-            this.y = paddle.y;
-    }
-
-    /**
-     * Called when a ball bounces on a brick
-     */
-    trackBounce(row, col) {
-        let previousRow = Math.floor((this.y - this.speed) / TRACK_HEIGHT);
-        let previousCol = Math.floor((this.x - this.speed) / TRACK_WIDTH);
-        // Lateral collision
-        if (previousCol != col)
-            this.speed *= -1;
-        // Horizontal collision
-        if (previousRow != row)
-            this.speed *= -1;
-
+    trackBounce() {
+        this.speed *= -0.5;
     }
 
     /**
@@ -97,5 +91,6 @@ class Car {
         this.x = carStartX;
         this.y = carStartY;
         this.speed = CAR_START_SPEED;
+        this.angle = CAR_START_ANGLE;
     }
 }

@@ -77,7 +77,7 @@ function loadTracks() {
     for (let i = 0; i < TRACK_ROWS; i++) { // Rows
         for (let j = 0; j < TRACK_COLS; j++) { // Columns
             // Terrain generation
-            let newTrack = new Track(j * TRACK_WIDTH, i * TRACK_HEIGHT, TRACKGRID[i * TRACK_COLS + j] == TRACK_WALL_CODE);
+            let newTrack = new Track(j * TRACK_WIDTH, i * TRACK_HEIGHT, TRACKGRID[i * TRACK_COLS + j]);
             tracks.push(newTrack);
             // Car start
             if (TRACKGRID[i * TRACK_COLS + j] == TRACK_START_CODE) {
@@ -101,16 +101,16 @@ function update() {
  * Handle car colliding with tracks
  */
 function updateCarCollision() {
-    let trackRow = Math.floor(car.y / TRACK_HEIGHT);
-    let trackCol = Math.floor(car.x / TRACK_WIDTH);
+    // Get car's next position
+    let nextTrackRow = Math.floor(car.getNextY() / TRACK_HEIGHT);
+    let nextTrackCol = Math.floor(car.getNextX() / TRACK_WIDTH);
     // Track col and row must be in config limit
-    if (trackCol < 0 || trackRow < 0 || trackRow >= TRACK_ROWS || trackCol >= TRACK_COLS)
+    if (nextTrackCol < 0 || nextTrackRow < 0 || nextTrackRow >= TRACK_ROWS || nextTrackCol >= TRACK_COLS)
         return;
     // Collision
-    let collidedTrack = getTrackFromColAndRow(trackRow, trackCol);
-    if (collidedTrack.isAlive) {
-        //collidedTrack.isAlive = false;
-        car.trackBounce(trackRow, trackCol);
+    let collidedTrack = getTrackFromColAndRow(nextTrackRow, nextTrackCol);
+    if (collidedTrack.code == TRACK_WALL_CODE) {
+        car.trackBounce();
     }
 }
 
@@ -120,17 +120,16 @@ function updateCarCollision() {
  * @param {int} trackCol 
  */
 function getTrackFromColAndRow(trackRow, trackCol) {
-    return tracks[trackCol + trackRow * TRACK_COLS];
+    return tracks[trackRow * TRACK_COLS + trackCol];
 }
 
 /**
  * Reset game
  */
 function resetGame() {
-    car.reset();
+    car.reset(carStartX, carStartY);
     tracks = [];
     loadTracks();
-    trackCounter = TRACK_ROWS * TRACK_COLS;
 }
 
 
