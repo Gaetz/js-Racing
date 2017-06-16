@@ -77,10 +77,10 @@ function loadTracks() {
     for (let i = 0; i < TRACK_ROWS; i++) { // Rows
         for (let j = 0; j < TRACK_COLS; j++) { // Columns
             // Terrain generation
-            let newTrack = new Track(j * TRACK_WIDTH, i * TRACK_HEIGHT, TRACKGRID[i * TRACK_COLS + j] == 1);
+            let newTrack = new Track(j * TRACK_WIDTH, i * TRACK_HEIGHT, TRACKGRID[i * TRACK_COLS + j] == TRACK_WALL_CODE);
             tracks.push(newTrack);
             // Car start
-            if (TRACKGRID[i * TRACK_COLS + j] == 2) {
+            if (TRACKGRID[i * TRACK_COLS + j] == TRACK_START_CODE) {
                 carStartX = j * TRACK_WIDTH;
                 carStartY = i * TRACK_HEIGHT;
             }

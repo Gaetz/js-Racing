@@ -25,6 +25,7 @@ const TRACK_COLS = 20;
 const TRACK_ROWS = 15;
 const TRACK_STYLE = 'blue';
 
+
 // Background
 const BACKGROUND_STYLE = 'black';
 
@@ -42,6 +43,10 @@ const LEFT_CODE = 37;
 const RIGHT_CODE = 39;
 
 // Grid
+const TRACK_ROAD_CODE = 0;
+const TRACK_WALL_CODE = 1;
+const TRACK_START_CODE = 2;
+
 const TRACKGRID =
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
