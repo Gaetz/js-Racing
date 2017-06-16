@@ -3,7 +3,7 @@
  */
 class Car {
 
-    constructor(x, y = Math.round(Math.random() * 450 + 75), radius = CAR_RADIUS, speed = CAR_START_SPEED, angle = - Math.PI / 2) {
+    constructor(x, y, radius = CAR_RADIUS, speed = CAR_START_SPEED, angle = - Math.PI / 2) {
         this.x = x;
         this.y = y;
         this.radius = radius;

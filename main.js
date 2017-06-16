@@ -1,5 +1,5 @@
 let canvas, canvasContext, input;
-let car, tracks, background, trackGrid;
+let car, carStartX, carStartY, tracks, background;
 
 /**
  * Game start
@@ -19,7 +19,7 @@ window.onload = function () {
 
 /**
  * Handle key pressure
- * @param {*} e 
+ * @param {*} e Event
  */
 function keyPressed(e) {
     setKeyHoldState(e.keyCode, true);
@@ -27,11 +27,17 @@ function keyPressed(e) {
 
 /**
  * Handle key releasing
+ * @param {*} e Event
  */
 function keyReleased(e) {
     setKeyHoldState(e.keyCode, false);
 }
 
+/**
+ * Tell Input if a virtual key is hold
+ * @param {*} keyCode Which key is hold
+ * @param {*} setTo Input will be set this value
+ */
 function setKeyHoldState(keyCode, setTo) {
     if (keyCode == UP_CODE || keyCode == Z_CODE) {
         input.isPressedUp = setTo;
@@ -55,11 +61,11 @@ function load() {
     canvasContext = canvas.getContext('2d');
     canvasContext.textAlign = 'center';
     background = new Background(canvas.width, canvas.height);
-    // Data
-    car = new Car(CAR_START_X, CAR_START_Y);
     // Track
     tracks = [];
     loadTracks();
+    // Data
+    car = new Car(carStartX, carStartY);
     // Input
     input = new Input();
 }
@@ -68,27 +74,16 @@ function load() {
  * Load all tracks
  */
 function loadTracks() {
-    trackGrid =
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-            1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
-            1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-            1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1,
-            1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1,
-            1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1,
-            1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
-            1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
-            1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
-            1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
-            1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1,
-            1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
-            1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1,
-            1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1,
-            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-
-    for (let i = 0; i < TRACK_ROWS; i++) {
-        for (let j = 0; j < TRACK_COLS; j++) {
-            let newTrack = new Track(j * TRACK_WIDTH, i * TRACK_HEIGHT, trackGrid[i * TRACK_COLS + j] == 1);
+    for (let i = 0; i < TRACK_COLS; i++) { // Rows
+        for (let j = 0; j < TRACK_ROWS; j++) { // Columns
+            // Terrain generation
+            let newTrack = new Track(i * TRACK_WIDTH, j * TRACK_HEIGHT, TRACKGRID[j * TRACK_COLS + i] == 1);
             tracks.push(newTrack);
+            // Car start
+            if (TRACKGRID[j * TRACK_COLS + i] == 2) {
+                carStartX = i * TRACK_WIDTH;
+                carStartY = j * TRACK_HEIGHT;
+            }
         }
     }
 }
@@ -144,8 +139,8 @@ function resetGame() {
  */
 function draw() {
     background.draw(canvasContext);
-    for (let i = 0; i < tracks.length; i++) {
-        tracks[i].draw(canvasContext);
+    for (let j = 0; j < tracks.length; j++) {
+        tracks[j].draw(canvasContext);
     }
     car.draw(canvasContext);
 }

@@ -3,8 +3,6 @@
  */
 class Track {
 
-
-
     constructor(x, y, isAlive, width = TRACK_WIDTH, height = TRACK_HEIGHT) {
         this.x = x;
         this.y = y;
@@ -25,5 +23,4 @@ class Track {
             canvasContext.fill();
         }
     }
-
 }
