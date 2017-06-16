@@ -74,15 +74,15 @@ function load() {
  * Load all tracks
  */
 function loadTracks() {
-    for (let i = 0; i < TRACK_COLS; i++) { // Rows
-        for (let j = 0; j < TRACK_ROWS; j++) { // Columns
+    for (let i = 0; i < TRACK_ROWS; i++) { // Rows
+        for (let j = 0; j < TRACK_COLS; j++) { // Columns
             // Terrain generation
-            let newTrack = new Track(i * TRACK_WIDTH, j * TRACK_HEIGHT, TRACKGRID[j * TRACK_COLS + i] == 1);
+            let newTrack = new Track(j * TRACK_WIDTH, i * TRACK_HEIGHT, TRACKGRID[i * TRACK_COLS + j] == 1);
             tracks.push(newTrack);
             // Car start
-            if (TRACKGRID[j * TRACK_COLS + i] == 2) {
-                carStartX = i * TRACK_WIDTH;
-                carStartY = j * TRACK_HEIGHT;
+            if (TRACKGRID[i * TRACK_COLS + j] == 2) {
+                carStartX = j * TRACK_WIDTH;
+                carStartY = i * TRACK_HEIGHT;
             }
         }
     }

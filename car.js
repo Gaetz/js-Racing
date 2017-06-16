@@ -93,9 +93,9 @@ class Car {
     /**
      * Reset ball position and speed
      */
-    reset() {
-        this.x = CAR_START_X;
-        this.y = CAR_START_Y;
+    reset(carStartX, carStartY) {
+        this.x = carStartX;
+        this.y = carStartY;
         this.speed = CAR_START_SPEED;
     }
 }
