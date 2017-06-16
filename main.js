@@ -4,7 +4,7 @@ let car, carStartX, carStartY, tracks, background;
 /**
  * Game start
  */
-window.onload = function () {
+window.onload = () => {
     // Load game elements
     load();
     // Manage inputs
