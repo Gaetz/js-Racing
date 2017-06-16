@@ -16,7 +16,7 @@ class Car {
         this.carPic.onload = () => {
             this.isCarPicLoaded = true;
         };
-        // Car out of control variable
+        this.outOfControlTimer = 0;
     }
 
     /**
@@ -36,23 +36,27 @@ class Car {
     update(canvas, input) {
         document.getElementById('debugText').innerHTML = "Speed: " + this.speed;
         // Input controls
-        if (input.isPressedUp) {
-            this.speed = this.speed + CAR_ACCELERATION;
-        }
-        if (input.isPressedDown) {
-            this.speed = this.speed - CAR_BRAKE;
-        }
-        if (input.isPressedLeft && Math.abs(this.speed) > CAR_MIN_TURN_SPEED) {
-            this.angle = this.angle - CAR_ROTATION;
-        }
-        if (input.isPressedRight && Math.abs(this.speed) > CAR_MIN_TURN_SPEED) {
-            this.angle = this.angle + CAR_ROTATION;
+        if (this.outOfControlTimer > 0) {
+            this.outOfControlTimer = this.outOfControlTimer - 1;
+        } else {
+            if (input.isPressedUp) {
+                this.speed = this.speed + CAR_ACCELERATION;
+            }
+            if (input.isPressedDown) {
+                this.speed = this.speed - CAR_BRAKE;
+            }
+            if (input.isPressedLeft && Math.abs(this.speed) > CAR_MIN_TURN_SPEED) {
+                this.angle = this.angle - CAR_ROTATION;
+            }
+            if (input.isPressedRight && Math.abs(this.speed) > CAR_MIN_TURN_SPEED) {
+                this.angle = this.angle + CAR_ROTATION;
+            }
         }
         // Move
         this.x = this.x + Math.cos(this.angle) * this.speed;
         this.y = this.y + Math.sin(this.angle) * this.speed;
         // Automatic deceleration
-        if (this.speed > CAR_MIN_SPEED)
+        if (Math.abs(this.speed) > CAR_MIN_SPEED)
             this.speed = this.speed * GROUNDSPEED_DECAY_MULT;
         else
             this.speed = 0;
@@ -81,7 +85,8 @@ class Car {
      * Called when the bounces on a wall
      */
     trackBounce() {
-        this.speed *= -0.5;
+        this.outOfControlTimer = CAR_BOUNCE_TIMER;
+        this.speed = this.speed * -0.5;
     }
 
     /**
