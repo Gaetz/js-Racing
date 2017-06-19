@@ -1,20 +1,80 @@
-let canvas, canvasContext, input;
+let canvas, canvasContext, input, graphics;
 let car, carStartX, carStartY, tracks, background;
 
 /**
  * Game start
  */
 window.onload = () => {
-    // Load game elements
-    load();
+    let isGameStarted = false;
+    // Initialize game elements
+    loadTools();
     // Manage inputs
     document.addEventListener('keydown', keyPressed);
     document.addEventListener('keyup', keyReleased);
+    // Start game after loading
+    startGame();
+}
+
+/**
+ * Start game given it is loaded
+ */
+function startGame() {
+    let setup = false;
     // Loop
     setInterval(() => {
-        update();
-        draw();
+        if (graphics.isLoadingDone()) {
+            if (!setup) {
+                loadGame();
+                setup = true;
+            }
+            update();
+            draw();
+        }
     }, 1000 / FRAME_PER_SECOND);
+}
+
+/**
+ * Startup game elements 
+ * */
+function loadTools() {
+    canvas = document.getElementById('gameCanvas');
+    canvasContext = canvas.getContext('2d');
+    canvasContext.textAlign = 'center';
+    background = new Background(canvas.width, canvas.height);
+    // Input
+    input = new Input();
+    // Graphics loader
+    graphics = new Graphics();
+}
+
+
+/**
+ * Loading game elements 
+ * */
+function loadGame() {
+    // Track
+    tracks = [];
+    loadTracks(graphics);
+    // Data
+    car = new Car(carStartX, carStartY, graphics);
+}
+
+/**
+ * Load all tracks
+ */
+function loadTracks(graphics) {
+    for (let i = 0; i < TRACK_ROWS; i++) { // Rows
+        for (let j = 0; j < TRACK_COLS; j++) { // Columns
+            // Terrain generation
+            let newTrack = new Track(j * TRACK_WIDTH, i * TRACK_HEIGHT, TRACKGRID[i * TRACK_COLS + j], graphics);
+            tracks.push(newTrack);
+            // Car start
+            if (TRACKGRID[i * TRACK_COLS + j] == TRACK_START_CODE) {
+                carStartX = j * TRACK_WIDTH;
+                carStartY = i * TRACK_HEIGHT;
+            }
+        }
+    }
 }
 
 /**
@@ -54,41 +114,6 @@ function setKeyHoldState(keyCode, setTo) {
 }
 
 /**
- * Loading game elements 
- * */
-function load() {
-    canvas = document.getElementById('gameCanvas');
-    canvasContext = canvas.getContext('2d');
-    canvasContext.textAlign = 'center';
-    background = new Background(canvas.width, canvas.height);
-    // Track
-    tracks = [];
-    loadTracks();
-    // Data
-    car = new Car(carStartX, carStartY);
-    // Input
-    input = new Input();
-}
-
-/**
- * Load all tracks
- */
-function loadTracks() {
-    for (let i = 0; i < TRACK_ROWS; i++) { // Rows
-        for (let j = 0; j < TRACK_COLS; j++) { // Columns
-            // Terrain generation
-            let newTrack = new Track(j * TRACK_WIDTH, i * TRACK_HEIGHT, TRACKGRID[i * TRACK_COLS + j]);
-            tracks.push(newTrack);
-            // Car start
-            if (TRACKGRID[i * TRACK_COLS + j] == TRACK_START_CODE) {
-                carStartX = j * TRACK_WIDTH;
-                carStartY = i * TRACK_HEIGHT;
-            }
-        }
-    }
-}
-
-/**
  * Update loop
  */
 function update() {
@@ -96,7 +121,7 @@ function update() {
     // Car bouncing on track
     updateCarCollision();
     // End game reset
-    if(isGoalReach()) {
+    if (isGoalReach()) {
         resetGame();
     }
 }
@@ -144,9 +169,9 @@ function isGoalReach() {
  * Reset game
  */
 function resetGame() {
-    car.reset(carStartX, carStartY);
+    car.reset(carStartX, carStartY, graphics);
     tracks = [];
-    loadTracks();
+    loadTracks(graphics);
 }
 
 
@@ -156,7 +181,7 @@ function resetGame() {
 function draw() {
     background.draw(canvasContext);
     for (let j = 0; j < tracks.length; j++) {
-        tracks[j].draw(canvasContext);
+        tracks[j].draw();
     }
-    car.draw(canvasContext);
+    car.draw();
 }

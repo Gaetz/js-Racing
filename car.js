@@ -3,20 +3,14 @@
  */
 class Car {
 
-    constructor(x, y, radius = CAR_RADIUS, speed = CAR_START_SPEED, angle = CAR_START_ANGLE) {
+    constructor(x, y, graphics, radius = CAR_RADIUS, speed = CAR_START_SPEED, angle = CAR_START_ANGLE) {
         this.x = x;
         this.y = y;
         this.radius = radius;
         this.speed = speed;
         this.angle = angle;
         // Load car image
-        this.isCarPicLoaded = false;
-        this.carPic = document.createElement('img');
-        this.carPic.src = CAR_GRAPHICS;
-        this.carPic.onload = () => {
-            this.isCarPicLoaded = true;
-        };
-        this.outOfControlTimer = 0;
+        this.carPic = graphics.get('car');
     }
 
     /**
@@ -67,18 +61,8 @@ class Car {
             this.speed *= -1;
     }
 
-    draw(canvasContext) {
-        if (this.isCarPicLoaded) {
-            this.drawBitmap(this.carPic, this.x, this.y, this.angle);
-        }
-    }
-
-    drawBitmap(graphics, x, y, angle) {
-        canvasContext.save();
-        canvasContext.translate(x, y);
-        canvasContext.rotate(angle);
-        canvasContext.drawImage(graphics, - graphics.width / 2, - graphics.height / 2);
-        canvasContext.restore();
+    draw() {
+        Graphics.drawBitmapWithRotation(this.carPic, this.x, this.y, this.angle);
     }
 
     /**

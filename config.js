@@ -10,7 +10,7 @@ const ANGLE_MULTIPLICATOR = 5;
 const CAR_START_SPEED = 0;
 const CAR_START_ANGLE = - Math.PI / 2;
 const CAR_RADIUS = 10;
-const CAR_GRAPHICS = 'car.png';
+const CAR_GRAPHICS = 'images/car.png';
 const CAR_ACCELERATION = 0.5;
 const CAR_BRAKE = 0.3;
 const CAR_ROTATION = 0.03 * Math.PI;
@@ -22,7 +22,6 @@ const CAR_BOUNCE_TIMER = 15;
 // Track elements
 const TRACK_WIDTH = 40;
 const TRACK_HEIGHT = 40;
-const TRACK_GAP = 1;
 const TRACK_COLS = 20;
 const TRACK_ROWS = 15;
 const TRACK_STYLE = 'blue';
@@ -49,6 +48,10 @@ const TRACK_ROAD_CODE = 0;
 const TRACK_WALL_CODE = 1;
 const TRACK_START_CODE = 2;
 const TRACK_GOAL_CODE = 3;
+const TRACK_ROAD_IMG = 'images/road.png';
+const TRACK_WALL_IMG = 'images/block.png';
+const TRACK_START_IMG = 'images/road.png';
+const TRACK_GOAL_IMG = 'images/flag.png';
 
 const TRACKGRID =
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,

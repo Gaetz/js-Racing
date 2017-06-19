@@ -3,24 +3,29 @@
  */
 class Track {
 
-    constructor(x, y, code, width = TRACK_WIDTH, height = TRACK_HEIGHT) {
+    constructor(x, y, code, graphics, width = TRACK_WIDTH, height = TRACK_HEIGHT) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.code = code;
+        this.pic = this.loadPic(code, graphics);
     }
 
-    update() {
-
-    }
-
-    draw(canvasContext) {
-        if (this.code == TRACK_WALL_CODE) {
-            canvasContext.fillStyle = TRACK_STYLE;
-            canvasContext.beginPath();
-            canvasContext.rect(this.x, this.y, this.width - TRACK_GAP, this.height - TRACK_GAP);
-            canvasContext.fill();
+    loadPic(code, graphics) {
+        switch (code) {
+            case TRACK_ROAD_CODE:
+                return graphics.get('road');
+            case TRACK_WALL_CODE:
+                return graphics.get('wall');
+            case TRACK_START_CODE:
+                return graphics.get('road');
+            case TRACK_GOAL_CODE:
+                return graphics.get('goal');
         }
+    }
+
+    draw() {
+        Graphics.drawBitmap(this.pic, this.x, this.y);
     }
 }
