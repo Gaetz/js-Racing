@@ -22,6 +22,10 @@ class Track {
                 return graphics.get('road');
             case TRACK_GOAL_CODE:
                 return graphics.get('goal');
+            case TRACK_FLAG_CODE:
+                return graphics.get('flag');
+            case TRACK_GRASS_CODE:
+                return graphics.get('grass');
         }
     }
 
