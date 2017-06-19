@@ -8,6 +8,7 @@ class Graphics {
         this.resources = new Map();
         let loader = [
             { name: 'car', src: CAR_GRAPHICS },
+            { name: 'carP2', src: CAR_P2_GRAPHICS },
             { name: 'road', src: TRACK_ROAD_IMG },
             { name: 'wall', src: TRACK_WALL_IMG },
             { name: 'goal', src: TRACK_GOAL_IMG },

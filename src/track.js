@@ -18,7 +18,9 @@ class Track {
                 return graphics.get('road');
             case TRACK_WALL_CODE:
                 return graphics.get('wall');
-            case TRACK_START_CODE:
+            case TRACK_START_P1_CODE:
+                return graphics.get('road');
+            case TRACK_START_P2_CODE:
                 return graphics.get('road');
             case TRACK_GOAL_CODE:
                 return graphics.get('goal');

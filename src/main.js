@@ -1,5 +1,5 @@
 let canvas, canvasContext, input, graphics;
-let car, carStartX, carStartY, tracks, background;
+let car, carP2, carStartX, carStartY, carP2StartX, carP2StartY, tracks, background;
 
 /**
  * Game start
@@ -56,7 +56,8 @@ function loadGame() {
     tracks = [];
     loadTracks(graphics);
     // Data
-    car = new Car(carStartX, carStartY, graphics);
+    car = new Car(carStartX, carStartY, false, graphics);
+    carP2 = new Car(carP2StartX, carP2StartY, true, graphics);
 }
 
 /**
@@ -72,9 +73,13 @@ function loadTracks(graphics) {
             let newTrack = new Track(trackLeftEdgeX, trackTopEdgeY, TRACKGRID[trackIndex], graphics);
             tracks.push(newTrack);
             // Car start
-            if (TRACKGRID[trackIndex] == TRACK_START_CODE) {
-                carStartX = trackLeftEdgeX;
+            if (TRACKGRID[trackIndex] == TRACK_START_P1_CODE) {
+                carStartX = trackLeftEdgeX + CAR_START_X_OFFSET;
                 carStartY = trackTopEdgeY;
+            }
+            if (TRACKGRID[trackIndex] == TRACK_START_P2_CODE) {
+                carP2StartX = trackLeftEdgeX + CAR_START_X_OFFSET;
+                carP2StartY = trackTopEdgeY;
             }
             // For next iteration
             trackLeftEdgeX = (trackLeftEdgeX + TRACK_WIDTH) % (TRACK_COLS * TRACK_WIDTH);
@@ -106,17 +111,31 @@ function keyReleased(e) {
  * @param {*} setTo Input will be set this value
  */
 function setKeyHoldState(keyCode, setTo) {
-    if (keyCode == UP_CODE || keyCode == Z_CODE) {
+    // Player 1
+    if (keyCode == Z_CODE) {
         input.isPressedUp = setTo;
     }
-    if (keyCode == LEFT_CODE || keyCode == Q_CODE) {
+    if (keyCode == Q_CODE) {
         input.isPressedLeft = setTo;
     }
-    if (keyCode == RIGHT_CODE || keyCode == D_CODE) {
+    if (keyCode == D_CODE) {
         input.isPressedRight = setTo;
     }
-    if (keyCode == DOWN_CODE || keyCode == S_CODE) {
+    if (keyCode == S_CODE) {
         input.isPressedDown = setTo;
+    }
+    // Player 2
+    if (keyCode == UP_CODE) {
+        input.isP2PressedUp = setTo;
+    }
+    if (keyCode == LEFT_CODE) {
+        input.isP2PressedLeft = setTo;
+    }
+    if (keyCode == RIGHT_CODE) {
+        input.isP2PressedRight = setTo;
+    }
+    if (keyCode == DOWN_CODE) {
+        input.isP2PressedDown = setTo;
     }
 }
 
@@ -125,10 +144,12 @@ function setKeyHoldState(keyCode, setTo) {
  */
 function update() {
     car.update(canvas, input);
+    carP2.update(canvas, input);
     // Car bouncing on track
-    updateCarCollision();
+    updateCarCollision(car);
+    updateCarCollision(carP2);
     // End game reset
-    if (isGoalReach()) {
+    if (isGoalReach(car) || isGoalReach(carP2)) {
         resetGame();
     }
 }
@@ -136,17 +157,17 @@ function update() {
 /**
  * Handle car colliding with tracks
  */
-function updateCarCollision() {
-    // Get car's next position
-    let nextTrackRow = Math.floor(car.getNextY() / TRACK_HEIGHT);
-    let nextTrackCol = Math.floor(car.getNextX() / TRACK_WIDTH);
+function updateCarCollision(checkedCar) {
+    // Get checkedCar's next position
+    let nextTrackRow = Math.floor(checkedCar.getNextY() / TRACK_HEIGHT);
+    let nextTrackCol = Math.floor(checkedCar.getNextX() / TRACK_WIDTH);
     // Track col and row must be in config limit
     if (nextTrackCol < 0 || nextTrackRow < 0 || nextTrackRow >= TRACK_ROWS || nextTrackCol >= TRACK_COLS)
         return;
     // Collision
     let collidedTrack = getTrackFromColAndRow(nextTrackRow, nextTrackCol);
     if (collidedTrack.code == TRACK_WALL_CODE) {
-        car.trackBounce();
+        checkedCar.trackBounce();
     }
 }
 
@@ -163,10 +184,10 @@ function getTrackFromColAndRow(trackRow, trackCol) {
 /**
  * Returns true when car reach track end
  */
-function isGoalReach() {
-    // Get car's position
-    let nextTrackRow = Math.floor(car.y / TRACK_HEIGHT);
-    let nextTrackCol = Math.floor(car.x / TRACK_WIDTH);
+function isGoalReach(checkedCar) {
+    // Get checkedCar's position
+    let nextTrackRow = Math.floor(checkedCar.y / TRACK_HEIGHT);
+    let nextTrackCol = Math.floor(checkedCar.x / TRACK_WIDTH);
     // Check if goal is reach
     let currentTrack = getTrackFromColAndRow(nextTrackRow, nextTrackCol);
     return currentTrack.code == TRACK_GOAL_CODE;
@@ -176,7 +197,8 @@ function isGoalReach() {
  * Reset game
  */
 function resetGame() {
-    car.reset(carStartX, carStartY, graphics);
+    car.reset(carStartX, carStartY, false, graphics);
+    carP2.reset(carP2StartX, carP2StartY, true, graphics);
     tracks = [];
     loadTracks(graphics);
 }
@@ -191,4 +213,5 @@ function draw() {
         tracks[j].draw();
     }
     car.draw();
+    carP2.draw();
 }
