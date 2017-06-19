@@ -63,17 +63,24 @@ function loadGame() {
  * Load all tracks
  */
 function loadTracks(graphics) {
+    let trackLeftEdgeX = 0;
+    let trackTopEdgeY = 0;
+    let trackIndex = 0;
     for (let i = 0; i < TRACK_ROWS; i++) { // Rows
         for (let j = 0; j < TRACK_COLS; j++) { // Columns
             // Terrain generation
-            let newTrack = new Track(j * TRACK_WIDTH, i * TRACK_HEIGHT, TRACKGRID[i * TRACK_COLS + j], graphics);
+            let newTrack = new Track(trackLeftEdgeX, trackTopEdgeY, TRACKGRID[trackIndex], graphics);
             tracks.push(newTrack);
             // Car start
-            if (TRACKGRID[i * TRACK_COLS + j] == TRACK_START_CODE) {
-                carStartX = j * TRACK_WIDTH;
-                carStartY = i * TRACK_HEIGHT;
+            if (TRACKGRID[trackIndex] == TRACK_START_CODE) {
+                carStartX = trackLeftEdgeX;
+                carStartY = trackTopEdgeY;
             }
+            // For next iteration
+            trackLeftEdgeX = (trackLeftEdgeX + TRACK_WIDTH) % (TRACK_COLS * TRACK_WIDTH);
+            trackIndex = trackIndex + 1;
         }
+        trackTopEdgeY = (trackTopEdgeY + TRACK_HEIGHT) % (TRACK_ROWS * TRACK_HEIGHT);
     }
 }
 
