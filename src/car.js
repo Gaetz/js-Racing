@@ -32,11 +32,17 @@ class Car {
         return this.y + Math.sin(this.angle) * this.speed;
     }
 
+    /**
+     * Update
+     * @param {*} canvas 
+     * @param {*} input 
+     */
     update(canvas, input) {
         // Input controls
         if (this.outOfControlTimer > 0) {
             this.outOfControlTimer = this.outOfControlTimer - 1;
         } else {
+            // Player 2
             if (this.isPlayer2) {
                 if (input.isP2PressedUp) {
                     this.speed = this.speed + CAR_ACCELERATION;
@@ -50,7 +56,9 @@ class Car {
                 if (input.isP2PressedRight && Math.abs(this.speed) > CAR_MIN_TURN_SPEED) {
                     this.angle = this.angle + CAR_ROTATION;
                 }
-            } else {
+            }
+            // Player 1 
+            else {
                 if (input.isPressedUp) {
                     this.speed = this.speed + CAR_ACCELERATION;
                 }
@@ -80,6 +88,9 @@ class Car {
             this.speed *= -1;
     }
 
+    /**
+     * Draw
+     */
     draw() {
         Graphics.drawBitmapWithRotation(this.carPic, this.x, this.y, this.angle);
     }
