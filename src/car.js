@@ -42,35 +42,17 @@ class Car {
         if (this.outOfControlTimer > 0) {
             this.outOfControlTimer = this.outOfControlTimer - 1;
         } else {
-            // Player 2
-            if (this.isPlayer2) {
-                if (input.isP2PressedUp) {
-                    this.speed = this.speed + CAR_ACCELERATION;
-                }
-                if (input.isP2PressedDown) {
-                    this.speed = this.speed - CAR_BRAKE;
-                }
-                if (input.isP2PressedLeft && Math.abs(this.speed) > CAR_MIN_TURN_SPEED) {
-                    this.angle = this.angle - CAR_ROTATION;
-                }
-                if (input.isP2PressedRight && Math.abs(this.speed) > CAR_MIN_TURN_SPEED) {
-                    this.angle = this.angle + CAR_ROTATION;
-                }
+            if (input.isUpInput(this)) {
+                this.speed = this.speed + CAR_ACCELERATION;
             }
-            // Player 1 
-            else {
-                if (input.isPressedUp) {
-                    this.speed = this.speed + CAR_ACCELERATION;
-                }
-                if (input.isPressedDown) {
-                    this.speed = this.speed - CAR_BRAKE;
-                }
-                if (input.isPressedLeft && Math.abs(this.speed) > CAR_MIN_TURN_SPEED) {
-                    this.angle = this.angle - CAR_ROTATION;
-                }
-                if (input.isPressedRight && Math.abs(this.speed) > CAR_MIN_TURN_SPEED) {
-                    this.angle = this.angle + CAR_ROTATION;
-                }
+            if (input.isDownInput(this)) {
+                this.speed = this.speed - CAR_BRAKE;
+            }
+            if (input.isLeftInput(this) && Math.abs(this.speed) > CAR_MIN_TURN_SPEED) {
+                this.angle = this.angle - CAR_ROTATION;
+            }
+            if (input.isRightInput(this) && Math.abs(this.speed) > CAR_MIN_TURN_SPEED) {
+                this.angle = this.angle + CAR_ROTATION;
             }
         }
         // Move
