@@ -149,7 +149,12 @@ function update() {
     updateCarCollision(car);
     updateCarCollision(carP2);
     // End game reset
-    if (isGoalReach(car) || isGoalReach(carP2)) {
+    if (isGoalReach(car)) {
+        document.getElementById('debugText').innerHTML = "Player one WON !";
+        resetGame();
+    }
+    if (isGoalReach(carP2)) {
+        document.getElementById('debugText').innerHTML = "Player two WON !";
         resetGame();
     }
 }
